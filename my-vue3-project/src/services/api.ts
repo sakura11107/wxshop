@@ -1,4 +1,4 @@
-import { Product, FavoriteItem } from '@/types/shop';
+import { Product, FavoriteItem,Order } from '@/types/shop';
 
 const API_BASE_URL = 'http://localhost:3000';
 
@@ -39,5 +39,11 @@ export const api = {
 
   // 获取用户的收藏
   getUserFavorites: (userId: string) => api.request<Product[]>(`/favoritesproduct`, 'POST',{ user_id: userId }),
+
+  //保存购物车订单信息
+  saveCartToBackend:(orderData: any) => api.request<void>('/orders', 'POST', orderData),
+
+  //获取用户订单信息
+  getUserOrders: (userId: string) => api.request<Order[]>(`/orders/${userId}`, 'GET'),
 
 };

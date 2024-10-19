@@ -148,8 +148,24 @@ const toggleFavorite = (productId: string) => {
   cartStore.toggleFavorite(userId, productId);
 };
 
-const checkout = () => {
-  console.log('结算');
+const checkout = async () => {
+  const token = uni.getStorageSync('token');
+  if (!token) {
+    console.log("请先登录");
+    return;
+  }
+  const decodedToken = jwtDecode<{ userId: string }>(token);
+  const userId = decodedToken.userId;
+  // 发送购物车信息到后端
+  try {
+    await cartStore.checkout(userId);  // 调用 Pinia 中的 checkout 方法，保存购物车信息
+    // 跳转到订单页面
+    uni.switchTab({
+      url: '/pages/order/index'
+    });
+  } catch (error) {
+    console.error('结算失败:', error);
+  }
 };
 </script>
 

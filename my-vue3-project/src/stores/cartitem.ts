@@ -4,7 +4,7 @@ import { Product, CartItem, FavoriteItem} from '@/types/shop';
 
 export const useCartStore = defineStore('cartitem', {
   state: () => ({
-    items: [] as CartItem[],
+    items: JSON.parse(uni.getStorageSync('cartItems') || '[]') as CartItem[],
     favoritesItems: [] as FavoriteItem[],
     showCart: false,
   }),
@@ -31,12 +31,12 @@ export const useCartStore = defineStore('cartitem', {
   actions: {
     addToCart(product: Product) {
       const existingItem = this.items.find(item => item.id === product.id);
-      this.showCart= false;
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
         this.items.push({ ...product, quantity: 1 });
       }
+      this.saveCart();
     },
     removeFromCart(product: Product) {
       const existingItem = this.items.find(item => item.id === product.id);
@@ -48,6 +48,7 @@ export const useCartStore = defineStore('cartitem', {
           this.updateShowCart();
         }
       }
+      this.saveCart();
     },
     updateShowCart() {  
       // 如果购物车为空，则隐藏购物车  
@@ -77,6 +78,32 @@ export const useCartStore = defineStore('cartitem', {
     },
     toggleCart(){
       this.showCart = !this.showCart;
+    },
+    saveCart() {
+      uni.setStorageSync('cartItems', JSON.stringify(this.items));  // 保存购物车到 localStorage
+    },
+    async checkout(userId:string) {
+      try {
+        const orderData = {
+          userid: userId,  
+          items: this.items,
+          total: this.cartTotal,
+          count: this.cartItemCount,
+        };
+        console.log('结算订单:', orderData);
+        // 假设这是你的 API 调用，保存订单
+        await api.saveCartToBackend(orderData);  
+        
+        // 清空本地存储的购物车信息
+        uni.removeStorageSync('cartItems');
+  
+        // 清空 Pinia 状态中的购物车
+        this.items = [];
+        this.updateShowCart();
+      } catch (error) {
+        console.error('结算失败:', error);
+        throw error;  // 抛出错误供外部捕获
+      }
     }
   }
 });

@@ -32,12 +32,29 @@ export interface User {
 }
 
 // 订单类型
-export interface Order {
-    id: number;
-    userId: string;
-    items: CartItem[];
-    total_price: number;
-    status: 'pending' | 'paid' | 'shipped' | 'delivered' | 'cancelled';
-    created_at: Date;
+// export interface Order {
+//     id: number;
+//     userId: string;
+//     items: CartItem[];
+//     total_price: number;
+//     status: 'pending' | 'paid' | 'shipped' | 'delivered' | 'cancelled';
+//     created_at: Date;
 
-}
+// }
+
+export interface OrderItem {
+    id: string;
+    product_id: string;
+    name: string;
+    price: number;
+    quantity: number;
+  }
+  
+export interface Order {
+    id: string;
+    user_id: string;
+    total_price: number;
+    created_at: string;
+    status: string;
+    items: OrderItem[];
+  }
