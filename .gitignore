@@ -58,3 +58,5 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+//忽略login.js文件
+backservice/routes/login.js
