@@ -1,6 +1,6 @@
 import { Product, FavoriteItem,Order } from '@/types/shop';
 
-const API_BASE_URL = 'http://localhost:3000';
+const API_BASE_URL = 'https://wx.tellrisk.xyz';
 
 export const api = {
   async request<T>(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', data?: any): Promise<T> {

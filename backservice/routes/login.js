@@ -7,8 +7,8 @@ const db = require('../db'); // 数据库连接
 // 微信登录路由
 router.post('/login', async (req, res) => {
   const { code, userInfo } = req.body;
-  const appid = 'wxaa78ce6abebe2a4b'; // 替换为你的AppID
-  const secret = '6af3572bfe09298f3e2ce11596259b19'; // 替换为你的AppSecret
+  const appid = ''; // 替换为你的AppID
+  const secret = ''; // 替换为你的AppSecret
 
   if (!code) {
     return res.status(400).json({ message: '缺少code' });

@@ -84,7 +84,7 @@ const login = (wechatUserInfo: WechatUserInfo) => {
     success: (res) => {
       if (res.code) {
         uni.request({
-          url: 'http://localhost:3000/api/login',
+          url: 'https://wx.tellrisk.xyz/api/login',
           method: 'POST',
           data: {
             code: res.code,
@@ -118,7 +118,7 @@ const login = (wechatUserInfo: WechatUserInfo) => {
 
 const fetchUserInfo = (token: string) => {
   uni.request({
-    url: 'http://localhost:3000/api/getUserInfo',
+    url: 'https://wx.tellrisk.xyz/api/getUserInfo',
     method: 'GET',
     header: {
       'Authorization': `Bearer ${token}`
@@ -141,7 +141,7 @@ const updateUserInfo = () => {
   }
 
   uni.request({
-    url: 'http://localhost:3000/api/updateUserInfo',
+    url: 'https://wx.tellrisk.xyz/api/updateUserInfo',
     method: 'POST',
     data: {
       address: newAddress.value,
